@@ -1,10 +1,11 @@
 puts "Welcome to the PokéApp"
 
 avl_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander"]
+usr_collection = []
 
 # Main game loop
 while true
-  puts "Type 'catch' to start catching Pokémon, or 'exit'."
+  puts "Type 'catch' to start catching Pokémon, 'collection' to view your collection or 'exit'."
   input_main_option = gets.chomp
   
   if input_main_option == "catch"
@@ -25,12 +26,15 @@ while true
       if input_catch_command == "pkball"
         puts "You throw a Pokéball at #{pokemon}"
         sleep 1
-        puts "The Pokéball moves as the Pokémon tries to escape..."
+        puts "The Pokéball wiggles as the Pokémon tries to escape..."
         sleep 3
-        puts "The Pokéball finally comes to a rest"
+        puts "The Pokéball finally comes to a rest..."
         sleep 2
         if catch_chance > 7
           puts "You caught #{pokemon}!!!"
+          puts "#{pokemon} has been added to your collection."
+          usr_collection << pokemon
+          break
         elsif pk_fear > 5
           puts "#{pokemon} ran away!"
           break
@@ -58,6 +62,8 @@ while true
   elsif input_main_option == "exit"
     puts "Hope to see you again soon!"
     break
+  elsif input_main_option == "collection"
+    p usr_collection
   else
     puts "Invalid option. Try again."
   end
