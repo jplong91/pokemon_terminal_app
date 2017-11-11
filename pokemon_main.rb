@@ -9,6 +9,11 @@ reg_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander", "Pidgey", "Ratt
 rare_pokemon = ["Abra", "Gastly", "Jigglypuff", "Clefairy", "Onyx"]
 legendary_pokemon = ["Articuno", "Zapdos", "Moltres", "Mewtwo"]
 usr_collection = []
+collection_view = {
+  "reg_pk" => [],
+  "rare_pk" => [],
+  "leg_pk" => []
+ }
 
 # Main game loop
 while true
@@ -19,7 +24,7 @@ while true
   # Generates what Pokemon will appear
   if input_main_option == "catch"
     puts "\nYou browse the tall grass around you for wild Pokémon..."
-    sleep 2
+    sleep 1.5
     
     rare_chance = 1 + rand(100)
     if rare_chance > 95
@@ -51,13 +56,11 @@ while true
         puts "\nYou throw a Pokéball at #{pokemon}"
         sleep 1
         puts "The Pokéball wiggles as the Pokémon tries to escape..."
-        sleep 3
+        sleep 2.5
         puts "The Pokéball finally comes to a rest..."
         sleep 2
         if catch_chance > 7
           puts "\nYou caught #{pokemon}!!!"
-          sleep 1
-          puts "\nGathering collection data..."
           sleep 1
           puts "\n#{pokemon} has been added to your collection."
           sleep 1
@@ -81,7 +84,7 @@ while true
         sleep 1
         if pk_fear > 8
           puts "\n#{pokemon} didn't like your food. #{pokemon} ran away!"
-          sleep 2
+          sleep 1.5
           break
         end
         puts "\n#{pokemon} nibbles on the food."
@@ -92,7 +95,7 @@ while true
         puts "\nYou slowly back away from #{pokemon}"
         sleep 1
         puts "You ran away from #{pokemon}."
-        sleep 1
+        sleep 0.5
         break
       else
         puts "\nInvalid option. Try again."
@@ -102,9 +105,33 @@ while true
   elsif input_main_option == "exit"
     puts "Hope to see you again soon!"
     break
+  
   elsif input_main_option == "collection"
+    puts "Compiling collection data..."
+    sleep 1
+    usr_collection.each do |indiv|
+      if legendary_pokemon.include? indiv
+        collection_view["leg_pk"] << indiv
+      elsif rare_pokemon.include? indiv
+        collection_view["rare_pk"] << indiv
+      elsif reg_pokemon.include? indiv
+        collection_view["reg_pk"] << indiv
+      end
+    end
     puts
-    p usr_collection
+    puts "Legendary Pokémon: #{collection_view["leg_pk"]}"
+    puts "Rare Pokémon: #{collection_view["rare_pk"]}"
+    puts "Regular Pokémon: #{collection_view["reg_pk"]}"
+    puts "\ntype 'done' to stop viewing your collection."
+    while true
+      input_clt_done = gets.chomp
+      if input_clt_done == "done"
+        puts "Returning to main menu..."
+        sleep 0.5
+        break
+      end
+    end
+
   else
     puts "\nInvalid option. Try again."
   end
