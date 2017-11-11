@@ -33,15 +33,19 @@ while true
       input_catch_command = gets.chomp
       
       if input_catch_command == "pkball"
-        puts "You throw a Pokéball at #{pokemon}"
+        puts "\nYou throw a Pokéball at #{pokemon}"
         sleep 1
         puts "The Pokéball wiggles as the Pokémon tries to escape..."
         sleep 3
         puts "The Pokéball finally comes to a rest..."
         sleep 2
         if catch_chance > 7
-          puts "You caught #{pokemon}!!!"
-          puts "#{pokemon} has been added to your collection."
+          puts "\nYou caught #{pokemon}!!!"
+          sleep 1
+          puts "\nUpdating collection data..."
+          sleep 1
+          puts "\n#{pokemon} has been added to your collection."
+          sleep 1
           usr_collection << pokemon
           break
         elsif pk_fear > 5
@@ -57,9 +61,12 @@ while true
         pk_food += 2
         sleep 1
         if pk_fear > 8
-          "#{pokemon} didn't like your food. #{pokemon} ran away!"
+          puts "\n#{pokemon} didn't like your food. #{pokemon} ran away!"
+          sleep 1
           break
         end
+        puts "\n#{pokemon} nibbles on the food."
+        sleep 1
         pk_fear += 1
 
       elsif input_catch_command == "run"
@@ -76,6 +83,7 @@ while true
     puts "Hope to see you again soon!"
     break
   elsif input_main_option == "collection"
+    puts
     p usr_collection
   else
     puts "\nInvalid option. Try again."
