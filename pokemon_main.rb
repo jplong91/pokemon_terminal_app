@@ -5,7 +5,8 @@ puts "  |    |  (  <_> )    <)  ___//    |    )  |_> >  |_> >"
 puts "  |____|   (____/|__|_ ))___  >____|__  /   __/|   __/ "
 puts "                      )/    )/        )/|__|   |__|    "
 
-avl_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander"]
+reg_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander"]
+rare_pokemon = ["Articuno", "Zapdos", "Moltres"]
 usr_collection = []
 
 # Main game loop
@@ -14,14 +15,23 @@ while true
   puts
   input_main_option = gets.chomp
   
+  # Generates what Pokemon will appear
   if input_main_option == "catch"
     puts "\nYou browse the tall grass around you for wild Pokémon..."
-    avl_pokemon.shuffle!
-    pokemon = avl_pokemon[0]
     sleep 2
     
+    rare_chance = 1 + rand(10)
+    if rare_chance > 8
+      rare_pokemon.shuffle!
+      pokemon = rare_pokemon[0]
+      pk_fear = 4 + rand(7)
+    else 
+      reg_pokemon.shuffle!
+      pokemon = reg_pokemon[0]
+      pk_fear = 1 + rand(7)
+    end
+
     puts "\nA wild #{pokemon} has appeared!!"
-    pk_fear = 1 + rand(7)
     pk_food = 0
     sleep 1
 
@@ -50,10 +60,14 @@ while true
           break
         elsif pk_fear > 5
           puts "\n#{pokemon} ran away!"
+          sleep 1
           break
         else
-          puts "\nFailed to catch #{pokemon}"
-          pk_fear += 1
+          puts "\n#{pokemon} evaded your catch!"
+          sleep 1
+          puts "#{pokemon} eyes you suspiously..."
+          sleep 1
+          pk_fear += 3
         end
       
       elsif input_catch_command == "feed"
@@ -62,7 +76,7 @@ while true
         sleep 1
         if pk_fear > 8
           puts "\n#{pokemon} didn't like your food. #{pokemon} ran away!"
-          sleep 1
+          sleep 2
           break
         end
         puts "\n#{pokemon} nibbles on the food."
@@ -72,7 +86,8 @@ while true
       elsif input_catch_command == "run"
         puts "\nYou slowly back away from #{pokemon}"
         sleep 1
-        puts "\nYou ran away from #{pokemon}."
+        puts "You ran away from #{pokemon}."
+        sleep 1
         break
       else
         puts "\nInvalid option. Try again."
