@@ -1,26 +1,35 @@
-puts "Welcome to the PokéApp"
+puts " __________       __             _____ "
+puts " (______   )____ |  | __ __/__  /  _  ) ______ ______  "
+puts "  |     ___/  _ )|  |/ // __ ) /  /_)  ))____ ))____ ) "
+puts "  |    |  (  <_> )    <)  ___//    |    )  |_> >  |_> >"
+puts "  |____|   (____/|__|_ ))___  >____|__  /   __/|   __/ "
+puts "                      )/    )/        )/|__|   |__|    "
 
 avl_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander"]
 usr_collection = []
 
 # Main game loop
 while true
-  puts "Type 'catch' to start catching Pokémon, 'collection' to view your collection or 'exit'."
+  puts "\nMain Menu \nOptions: \ntype 'catch' - start catching Pokémon \ntype 'collection' - view your collection \ntype 'exit' - leave PokéApp"
+  puts
   input_main_option = gets.chomp
   
   if input_main_option == "catch"
-    puts "Let's Begin"
+    puts "\nYou browse the tall grass around you for wild Pokémon..."
     avl_pokemon.shuffle!
     pokemon = avl_pokemon[0]
+    sleep 2
     
-    puts "A wild #{pokemon} has appeared!!"
+    puts "\nA wild #{pokemon} has appeared!!"
     pk_fear = 1 + rand(7)
     pk_food = 0
+    sleep 1
 
     # Pokemon encounter loop
     while true
       catch_chance = 1 + rand(10) + pk_food
-      puts "Type 'pkball' to throw Pokéball, 'feed' to make the Pokémon easier to catch! or 'run' to find another Pokémon."
+      puts "\nCatch Menu \nOptions: \ntype 'pkball' - throw Pokéball \ntype 'feed' - makes the Pokémon easier to catch! \ntype 'run' - find another Pokémon."
+      puts
       input_catch_command = gets.chomp
       
       if input_catch_command == "pkball"
@@ -36,25 +45,30 @@ while true
           usr_collection << pokemon
           break
         elsif pk_fear > 5
-          puts "#{pokemon} ran away!"
+          puts "\n#{pokemon} ran away!"
           break
         else
-          puts "Failed to catch #{pokemon}"
+          puts "\nFailed to catch #{pokemon}"
+          
         end
       
       elsif input_catch_command == "feed"
-        puts "You sprinkle some food around #{pokemon}"
+        puts "\nYou sprinkle some food around #{pokemon}"
         pk_food += 2
+        sleep 1
         if pk_fear > 8
           "#{pokemon} didn't like your food. #{pokemon} ran away!"
           break
         end
-      
+
+
       elsif input_catch_command == "run"
-        puts "You run away from the pokemon."
+        puts "\nYou slowly back away from #{pokemon}"
+        sleep 1
+        puts "\nYou ran away from #{pokemon}."
         break
       else
-        "Invalid option. Try again."
+        puts "\nInvalid option. Try again."
       end
       pk_fear += 1
     end
@@ -65,6 +79,6 @@ while true
   elsif input_main_option == "collection"
     p usr_collection
   else
-    puts "Invalid option. Try again."
+    puts "\nInvalid option. Try again."
   end
 end
