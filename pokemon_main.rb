@@ -7,10 +7,11 @@ while true
   input_option = gets.chomp
   if input_option == "Catch"
     puts "Let's Begin"
+    pokemon.shuffle!
   elsif input_option == "Exit"
     puts "Hope to see you again soon!"
     break
   else
-    puts "Invalid option"
+    puts "Invalid option. Try again."
   end
 end
