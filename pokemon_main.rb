@@ -2,6 +2,7 @@ puts "Welcome to the PokéApp"
 
 avl_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander"]
 
+# Main game loop
 while true
   puts "Type 'catch' to start catching Pokémon, or 'exit'."
   input_main_option = gets.chomp
@@ -12,12 +13,15 @@ while true
     pokemon = avl_pokemon[0]
     
     puts "A wild #{pokemon} has appeared!!"
-    pk_fear = 1 + rand(5)
+    pk_fear = 1 + rand(7)
+    pk_food = 0
 
+    # Pokemon encounter loop
     while true
-      catch_chance = 1 + rand(10)
+      catch_chance = 1 + rand(10) + pk_food
       puts "Type 'pkball' to throw Pokéball, 'feed' to make the Pokémon easier to catch! or 'run' to find another Pokémon."
       input_catch_command = gets.chomp
+      
       if input_catch_command == "pkball"
         puts "You throw a Pokéball at #{pokemon}"
         sleep 1
@@ -27,14 +31,21 @@ while true
         sleep 2
         if catch_chance > 7
           puts "You caught #{pokemon}!!!"
-        elsif pk_fear > 4
+        elsif pk_fear > 5
           puts "#{pokemon} ran away!"
           break
         else
           puts "Failed to catch #{pokemon}"
         end
+      
       elsif input_catch_command == "feed"
         puts "You sprinkle some food around #{pokemon}"
+        pk_food += 2
+        if pk_fear > 8
+          "#{pokemon} didn't like your food. #{pokemon} ran away!"
+          break
+        end
+      
       elsif input_catch_command == "run"
         puts "You run away from the pokemon."
         break
