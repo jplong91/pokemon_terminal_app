@@ -49,7 +49,7 @@ while true
           break
         else
           puts "\nFailed to catch #{pokemon}"
-          
+          pk_fear += 1
         end
       
       elsif input_catch_command == "feed"
@@ -60,7 +60,7 @@ while true
           "#{pokemon} didn't like your food. #{pokemon} ran away!"
           break
         end
-
+        pk_fear += 1
 
       elsif input_catch_command == "run"
         puts "\nYou slowly back away from #{pokemon}"
@@ -70,7 +70,6 @@ while true
       else
         puts "\nInvalid option. Try again."
       end
-      pk_fear += 1
     end
 
   elsif input_main_option == "exit"
