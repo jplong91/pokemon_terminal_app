@@ -8,8 +8,7 @@ puts "                      )/    )/        )/|__|   |__|    "
 reg_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander", "Pidgey", "Rattata", "Weedle", "Caterpie", "Oddish", "Diglet"]
 rare_pokemon = ["Abra", "Gastly", "Jigglypuff", "Clefairy", "Onyx"]
 legendary_pokemon = ["Articuno", "Zapdos", "Moltres", "Mewtwo"]
-usr_collection = []
-collection_view = {
+usr_collection = {
   "reg_pk" => [],
   "rare_pk" => [],
   "leg_pk" => []
@@ -17,7 +16,7 @@ collection_view = {
 
 # Main game loop
 while true
-  puts "\nMain Menu \nOptions: \ntype 'catch' - start catching Pokémon \ntype 'collection' - view your collection \ntype 'exit' - leave PokéApp"
+  puts "\nMain Menu \nOptions: \ntype 'catch' - start catching Pokémon \ntype 'collection' - view your collection \ntype 'wild' - view all available Pokémon \ntype 'exit' - leave PokéApp"
   puts
   input_main_option = gets.chomp
   
@@ -64,7 +63,13 @@ while true
           sleep 1
           puts "\n#{pokemon} has been added to your collection."
           sleep 1
-          usr_collection << pokemon
+          if legendary_pokemon.include? pokemon
+            usr_collection["leg_pk"] << pokemon
+          elsif rare_pokemon.include? pokemon
+            usr_collection["rare_pk"] << pokemon
+          elsif reg_pokemon.include? pokemon
+            usr_collection["reg_pk"] << pokemon
+          end
           break
         elsif pk_fear > 7
           puts "\n#{pokemon} ran away!"
@@ -79,15 +84,15 @@ while true
         end
       
       elsif input_catch_command == "feed"
-        puts "\nYou sprinkle some food around #{pokemon}"
+        puts "\nYou sprinkle some Pokéfood around #{pokemon}"
         pk_food += 2
         sleep 1
         if pk_fear > 8
-          puts "\n#{pokemon} didn't like your food. #{pokemon} ran away!"
+          puts "\n#{pokemon} didn't like your Pokéfood. #{pokemon} ran away!"
           sleep 1.5
           break
         end
-        puts "\n#{pokemon} nibbles on the food."
+        puts "\n#{pokemon} nibbles on the Pokéfood."
         sleep 1
         pk_fear += 1
 
@@ -95,33 +100,20 @@ while true
         puts "\nYou slowly back away from #{pokemon}"
         sleep 1
         puts "You ran away from #{pokemon}."
-        sleep 0.5
+        sleep 1
         break
       else
         puts "\nInvalid option. Try again."
       end
     end
 
-  elsif input_main_option == "exit"
-    puts "Hope to see you again soon!"
-    break
-  
   elsif input_main_option == "collection"
     puts "Compiling collection data..."
     sleep 1
-    usr_collection.each do |indiv|
-      if legendary_pokemon.include? indiv
-        collection_view["leg_pk"] << indiv
-      elsif rare_pokemon.include? indiv
-        collection_view["rare_pk"] << indiv
-      elsif reg_pokemon.include? indiv
-        collection_view["reg_pk"] << indiv
-      end
-    end
     puts
-    puts "Legendary Pokémon: #{collection_view["leg_pk"]}"
-    puts "Rare Pokémon: #{collection_view["rare_pk"]}"
-    puts "Regular Pokémon: #{collection_view["reg_pk"]}"
+    puts "Legendary Pokémon: #{usr_collection["leg_pk"]}"
+    puts "Rare Pokémon: #{usr_collection["rare_pk"]}"
+    puts "Regular Pokémon: #{usr_collection["reg_pk"]}"
     puts "\ntype 'done' to stop viewing your collection."
     while true
       input_clt_done = gets.chomp
@@ -132,6 +124,26 @@ while true
       end
     end
 
+  elsif input_main_option == "wild"
+    puts "Loading all wild Pokémon data..."
+    sleep 1
+    puts
+    puts "Available Legendary Pokémon: #{legendary_pokemon}"
+    puts "Available Rare Pokémon: #{rare_pokemon}"
+    puts "Available Regular Pokémon: #{reg_pokemon}"
+    puts "\ntype 'done' to stop viewing wild Pokémon."
+    while true
+      input_clt_done = gets.chomp
+      if input_clt_done == "done"
+        puts "Returning to main menu..."
+        sleep 0.5
+        break
+      end
+    end
+
+  elsif input_main_option == "exit"
+    puts "Hope to see you again soon!"
+    break
   else
     puts "\nInvalid option. Try again."
   end
