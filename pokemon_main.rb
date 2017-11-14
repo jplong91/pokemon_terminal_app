@@ -22,13 +22,13 @@ usr_collection = {
 while true
   mm_options = {
     "Catch - start catching Pokémon" => 1, 
-    "Collection - view your collection of Pokémon" => 2, 
-    "Wild - view all available Pokémon" => 3, 
+    "Pokédex - view your collection of Pokémon" => 2, 
+    "Library - view all available Pokémon" => 3, 
     "Exit - leave PokéApp" => 4
   }
   input_main_option = prompt.select("\nMain Menu Options", mm_options)
   
-  # Generates what Pokemon will appear
+  # Generates wild Pokémon
   if input_main_option == 1
     puts "\nYou browse the tall grass around you for wild Pokémon..."
     sleep 1.5
@@ -49,7 +49,7 @@ while true
     pk_food = 0
     sleep 1
 
-    # Pokemon encounter loop
+    # Pokémon encounter loop
     while true
       catch_chance = 1 + rand(10) + pk_food
       catm_options = {
@@ -58,9 +58,6 @@ while true
         "Run - find another Pokémon." => 3
       }
       input_catch_command = prompt.select("\nCatch Menu Options", catm_options)
-      # puts "\nCatch Menu \nOptions: \ntype 'pkball' - throw Pokéball \ntype 'feed' - makes the Pokémon easier to catch! \ntype 'run' - find another Pokémon."
-      # puts
-      # input_catch_command = gets.chomp
       
       if input_catch_command == 1
         puts "\nYou throw a Pokéball at #{pokemon}"
@@ -120,23 +117,21 @@ while true
       end
     end
 
+  # Pokédex Menu Option
   elsif input_main_option == 2
-    puts "Compiling collection data..."
+    puts "Compiling Pokédex data..."
     sleep 1
     puts
     puts "Legendary Pokémon: #{usr_collection["leg_pk"]}"
     puts "Rare Pokémon: #{usr_collection["rare_pk"]}"
     puts "Regular Pokémon: #{usr_collection["reg_pk"]}"
-    puts "\ntype 'done' to stop viewing your collection."
+    puts "\nPress 'enter' to return to main menu."
     while true
       input_clt_done = gets.chomp
-      if input_clt_done == "done"
-        puts "Returning to main menu..."
-        sleep 0.5
-        break
-      end
+      break if input_clt_done.empty?
     end
 
+  # Pokémon Library Menu Option
   elsif input_main_option == 3
     puts "Loading all wild Pokémon data..."
     sleep 1
@@ -144,19 +139,17 @@ while true
     puts "Available Legendary Pokémon: #{legendary_pokemon}"
     puts "Available Rare Pokémon: #{rare_pokemon}"
     puts "Available Regular Pokémon: #{reg_pokemon}"
-    puts "\ntype 'done' to stop viewing wild Pokémon."
+    puts "\nPress 'enter' to return to main menu."
     while true
       input_clt_done = gets.chomp
-      if input_clt_done == "done"
-        puts "Returning to main menu..."
-        sleep 0.5
-        break
-      end
+      break if input_clt_done.empty?
     end
 
+  # Game Exit
   elsif input_main_option == 4
     puts "\nHope to see you again soon!"
     break
+
   else
     puts "\nInvalid option. Try again."
   end
