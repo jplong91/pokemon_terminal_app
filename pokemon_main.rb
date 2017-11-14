@@ -5,6 +5,9 @@ puts "  |    |  (  <_> )    <)  ___//    |    )  |_> >  |_> >"
 puts "  |____|   (____/|__|_ ))___  >____|__  /   __/|   __/ "
 puts "                      )/    )/        )/|__|   |__|    "
 
+require "tty-prompt"
+prompt = TTY::Prompt.new
+
 reg_pokemon = ["Pikachu", "Bulbasaur", "Squirtle", "Charmander", "Pidgey", "Rattata", "Weedle", "Caterpie", "Oddish", "Diglet"]
 rare_pokemon = ["Abra", "Gastly", "Jigglypuff", "Clefairy", "Onyx"]
 legendary_pokemon = ["Articuno", "Zapdos", "Moltres", "Mewtwo"]
@@ -16,27 +19,31 @@ usr_collection = {
 
 # Main game loop
 while true
-  puts "\nMain Menu \nOptions: \ntype 'catch' - start catching Pokémon \ntype 'collection' - view your collection \ntype 'wild' - view all available Pokémon \ntype 'exit' - leave PokéApp"
-  puts
-  input_main_option = gets.chomp
+  mm_options = {
+    "Catch - start catching Pokémon" => 1, 
+    "Collection - view your collection of Pokémon" => 2, 
+    "Wild - view all available Pokémon" => 3, 
+    "Exit - leave PokéApp" => 4
+  }
+  input_main_option = prompt.select("Main Menu Options", mm_options)
+  # puts "\nMain Menu \nOptions: \ntype 'catch' - start catching Pokémon \ntype 'collection' - view your collection \ntype 'wild' - view all available Pokémon \ntype 'exit' - leave PokéApp"
+  # puts
+  # input_main_option = gets.chomp
   
   # Generates what Pokemon will appear
-  if input_main_option == "catch"
+  if input_main_option == 1
     puts "\nYou browse the tall grass around you for wild Pokémon..."
     sleep 1.5
     
     rare_chance = 1 + rand(100)
     if rare_chance > 95
-      legendary_pokemon.shuffle!
-      pokemon = legendary_pokemon[0]
+      pokemon = legendary_pokemon.sample
       pk_fear = 3 + rand(12)
     elsif rare_chance > 75
-      rare_pokemon.shuffle!
-      pokemon = rare_pokemon[0]
+      pokemon = rare_pokemon.sample
       pk_fear = 2 + rand(10)
     else 
-      reg_pokemon.shuffle!
-      pokemon = reg_pokemon[0]
+      pokemon = reg_pokemon.sample
       pk_fear = 1 + rand(8)
     end
 
@@ -62,7 +69,7 @@ while true
           puts "\nYou caught #{pokemon}!!!"
           sleep 1
           puts "\n#{pokemon} has been added to your collection."
-          sleep 1
+          sleep 1.5
           if legendary_pokemon.include? pokemon
             usr_collection["leg_pk"] << pokemon
           elsif rare_pokemon.include? pokemon
@@ -72,6 +79,8 @@ while true
           end
           break
         elsif pk_fear > 7
+          puts "\n#{pokemon} evaded your catch!"
+          sleep 1
           puts "\n#{pokemon} ran away!"
           sleep 1
           break
@@ -107,7 +116,7 @@ while true
       end
     end
 
-  elsif input_main_option == "collection"
+  elsif input_main_option == 2
     puts "Compiling collection data..."
     sleep 1
     puts
@@ -124,7 +133,7 @@ while true
       end
     end
 
-  elsif input_main_option == "wild"
+  elsif input_main_option == 3
     puts "Loading all wild Pokémon data..."
     sleep 1
     puts
@@ -141,7 +150,7 @@ while true
       end
     end
 
-  elsif input_main_option == "exit"
+  elsif input_main_option == 4
     puts "Hope to see you again soon!"
     break
   else
