@@ -4,6 +4,7 @@ puts "  |     ___/  _ )|  |/ // __ ) /  /_)  ))____ ))____ ) "
 puts "  |    |  (  <_> )    <)  ___//    |    )  |_> >  |_> >"
 puts "  |____|   (____/|__|_ ))___  >____|__  /   __/|   __/ "
 puts "                      )/    )/        )/|__|   |__|    "
+puts
 
 require "tty-prompt"
 prompt = TTY::Prompt.new
@@ -25,10 +26,7 @@ while true
     "Wild - view all available Pokémon" => 3, 
     "Exit - leave PokéApp" => 4
   }
-  input_main_option = prompt.select("Main Menu Options", mm_options)
-  # puts "\nMain Menu \nOptions: \ntype 'catch' - start catching Pokémon \ntype 'collection' - view your collection \ntype 'wild' - view all available Pokémon \ntype 'exit' - leave PokéApp"
-  # puts
-  # input_main_option = gets.chomp
+  input_main_option = prompt.select("\nMain Menu Options", mm_options)
   
   # Generates what Pokemon will appear
   if input_main_option == 1
@@ -54,11 +52,17 @@ while true
     # Pokemon encounter loop
     while true
       catch_chance = 1 + rand(10) + pk_food
-      puts "\nCatch Menu \nOptions: \ntype 'pkball' - throw Pokéball \ntype 'feed' - makes the Pokémon easier to catch! \ntype 'run' - find another Pokémon."
-      puts
-      input_catch_command = gets.chomp
+      catm_options = {
+        "Throw Pokéball - attempt to catch Pokémon!" => 1,
+        "Feed Pokémon - will make the Pokémon easier to catch!" => 2,
+        "Run - find another Pokémon." => 3
+      }
+      input_catch_command = prompt.select("\nCatch Menu Options", catm_options)
+      # puts "\nCatch Menu \nOptions: \ntype 'pkball' - throw Pokéball \ntype 'feed' - makes the Pokémon easier to catch! \ntype 'run' - find another Pokémon."
+      # puts
+      # input_catch_command = gets.chomp
       
-      if input_catch_command == "pkball"
+      if input_catch_command == 1
         puts "\nYou throw a Pokéball at #{pokemon}"
         sleep 1
         puts "The Pokéball wiggles as the Pokémon tries to escape..."
@@ -92,7 +96,7 @@ while true
           pk_fear += 3
         end
       
-      elsif input_catch_command == "feed"
+      elsif input_catch_command == 2
         puts "\nYou sprinkle some Pokéfood around #{pokemon}"
         pk_food += 2
         sleep 1
@@ -105,7 +109,7 @@ while true
         sleep 1
         pk_fear += 1
 
-      elsif input_catch_command == "run"
+      elsif input_catch_command == 3
         puts "\nYou slowly back away from #{pokemon}"
         sleep 1
         puts "You ran away from #{pokemon}."
@@ -151,7 +155,7 @@ while true
     end
 
   elsif input_main_option == 4
-    puts "Hope to see you again soon!"
+    puts "\nHope to see you again soon!"
     break
   else
     puts "\nInvalid option. Try again."
